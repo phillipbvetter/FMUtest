@@ -6,8 +6,9 @@
 \usage{
 makePredictionUsingR(
   inputdata,
-  hyperdata = list(ode.timestep.size = diff(inputdata$t), ode.timesteps = rep(1,
-    nrow(inputdata) - 1)),
+  ode.steps = 10,
+  ode.dt = diff(inputdata$t)/ode.steps,
+  ode.n = rep(ode.steps, nrow(inputdata) - 1),
   parvec = c(theta = 10, mu = 1, sigma_x = 1, sigma_y = 0.1),
   X = 1,
   P = 0.1

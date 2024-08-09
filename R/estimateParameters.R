@@ -16,18 +16,23 @@
 #' @export
 estimateParameters = function(obsdata,
                               inputdata,
-                              x0 = 3,
-                              p0 = 0.1*diag(1),
-                              ode.dt = diff(inputdata$t)/10,
-                              ode.n = rep(10, nrow(inputdata)-1),
                               parameters,
                               parameter_map = NULL,
+                              x0 = 3,
+                              p0 = 0.1*diag(1),
+                              ode.steps = 10,
+                              ode.dt = diff(inputdata$t)/ode.steps,
+                              ode.n = rep(ode.steps, nrow(inputdata)-1),
                               lb = -Inf,
                               ub = Inf,
                               silent = TRUE,
                               trace = 0,
                               control = list(trace=trace, eval.max=1e4, iter.max=1e4),
                               hessian = TRUE){
+  
+  if(!is.list(parameters)){
+    stop("The 'parameters' argument must be a named list with initial values")
+  }
   
   
   tmbdata = list(
@@ -91,7 +96,6 @@ estimateParameters = function(obsdata,
   ##### RETURN  #####
   if (inherits(opt,"try-error")) {
     opt = list()
-    # opt$par = parameters$par
   }
   
   

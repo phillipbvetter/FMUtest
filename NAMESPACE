@@ -3,6 +3,4 @@
 export(estimateParameters)
 export(makePredictionUsingR)
 export(simulateData)
-importFrom(stats,approxfun)
-importFrom(stats,predict.lm)
 useDynLib(test_model)

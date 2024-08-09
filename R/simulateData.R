@@ -21,8 +21,6 @@ simulateData = function(pars = c(theta=10, mu=1, sigma_x=1, sigma_y=0.1),
                         x0 = 3
                         ){
   
-  print(seed)
-  
   # Simulate data using Euler Maruyama
   set.seed(seed)
   pars = c(theta=10, mu=1, sigma_x=1, sigma_y=0.1)

@@ -8,20 +8,16 @@
 #' @param parameters description
 #' 
 #' @export
-#' @importFrom stats predict.lm approxfun
 makePredictionUsingR = function(inputdata,
-                                hyperdata = list(
-                                  ode.timestep.size = diff(inputdata$t),
-                                  ode.timesteps = rep(1,nrow(inputdata)-1)
-                                ),
+                                ode.steps = 10,
+                                ode.dt = diff(inputdata$t)/ode.steps,
+                                ode.n = rep(ode.steps, nrow(inputdata)-1),
                                 parvec = c(theta=10, mu=1, sigma_x=1, sigma_y=0.1),
                                 X = 1,
                                 P = 0.1
                                 ){
   
   # Unload
-  ode.dt <- hyperdata$ode.timestep.size
-  ode.steps <- hyperdata$ode.timesteps
   inputMat <- as.matrix(inputdata)
   parVec <- as.numeric(parvec)
   
@@ -49,9 +45,9 @@ makePredictionUsingR = function(inputdata,
   for(i in 1:N){
     
     inputVec <- as.numeric(inputMat[i,])
-    dinputVec <- (inputMat[i,] - inputMat[i+1,])/ode.steps[i]
+    dinputVec <- (inputMat[i,] - inputMat[i+1,])/ode.n[i]
     
-    for(j in 1:ode.steps[i]){
+    for(j in 1:ode.n[i]){
       F_ <- f(X, parVec, inputVec)
       A <- dfdx(X,parVec,inputVec)
       G <- g(X,parVec,inputVec)
